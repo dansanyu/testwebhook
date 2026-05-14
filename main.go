@@ -212,6 +212,7 @@ func main() {
 		if code == "" {
 			code = codeRedis.Val()
 		}
+
 		if company == "" {
 			company = com.Val()
 		}
