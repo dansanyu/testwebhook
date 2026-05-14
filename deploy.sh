@@ -15,8 +15,8 @@ if [ ! -d ".git" ]; then
 fi
 
 # 3️⃣ 拉取最新代码
-git fetch origin main
-git reset --hard origin/main
+git fetch origin master
+git reset --hard origin/master
 
 # 4️⃣ Docker 部署
 # 检查 docker-compose.yml 是否存在
