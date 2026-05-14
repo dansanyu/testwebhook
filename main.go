@@ -216,7 +216,6 @@ func main() {
 		if company == "" {
 			company = com.Val()
 		}
-
 		fmt.Println(tokenv2.Val())
 		result := GetZTByBaidu(code, company, tokenv2.Val(), cookie.Val())
 		fmt.Printf("%+v\n", result)
