@@ -5,16 +5,15 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
-	"github.com/sashabaranov/go-openai"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 	"wuliu/proto/pb"
 
 	"context"
+	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -196,41 +195,41 @@ func redisDb(ctx context.Context) {
 }
 
 func main() {
-	//ctx := context.Background()
-	//
-	//redisDb(ctx)
-	//
-	//r := gin.Default()
-	//
-	//r.GET("/wuliu", func(c *gin.Context) {
-	//	company := c.Query("company") // 没有传则为空
-	//	code := c.Query("code")       // 没有传则为空
-	//
-	//	tokenv2 := rdb.Get(ctx, "wuliu:tokenv2")
-	//	cookie := rdb.Get(ctx, "wuliu:cookie")
-	//	codeRedis := rdb.Get(ctx, "wuliu:code")
-	//	com := rdb.Get(ctx, "wuliu:com")
-	//	if code == "" {
-	//		code = codeRedis.Val()
-	//	}
-	//	if company == "" {
-	//		company = com.Val()
-	//	}
-	//
-	//	fmt.Println(tokenv2.Val())
-	//	result := GetZTByBaidu(code, company, tokenv2.Val(), cookie.Val())
-	//	fmt.Printf("%+v\n", result)
-	//
-	//	c.JSON(http.StatusOK, result)
-	//})
-	//r.Run(":8081")
+	ctx := context.Background()
+
+	redisDb(ctx)
+
+	r := gin.Default()
+
+	r.GET("/wuliu", func(c *gin.Context) {
+		company := c.Query("company") // 没有传则为空
+		code := c.Query("code")       // 没有传则为空
+
+		tokenv2 := rdb.Get(ctx, "wuliu:tokenv2")
+		cookie := rdb.Get(ctx, "wuliu:cookie")
+		codeRedis := rdb.Get(ctx, "wuliu:code")
+		com := rdb.Get(ctx, "wuliu:com")
+		if code == "" {
+			code = codeRedis.Val()
+		}
+		if company == "" {
+			company = com.Val()
+		}
+
+		fmt.Println(tokenv2.Val())
+		result := GetZTByBaidu(code, company, tokenv2.Val(), cookie.Val())
+		fmt.Printf("%+v\n", result)
+
+		c.JSON(http.StatusOK, result)
+	})
+	r.Run(":8081")
 	//lis, _ := net.Listen("tcp", ":50051")
 	//log.Println("gRPC server listening on :50051")
 	//grpcServer := grpc.NewServer()
 	//pb.RegisterHelloServiceServer(grpcServer, &HelloService{})
 	//grpcServer.Serve(lis)
 
-	// 配置客户端
+	//配置客户端
 	//config := openai.DefaultConfig("blz_gmfXITCkIldgSw_zq3bPgCZlYFFBZlbxE1mAd2xxlJ4")
 	//config.BaseURL = "https://blazeai.boxu.dev/api/"
 	//
@@ -258,27 +257,6 @@ func main() {
 	//
 	//// 输出响应内容
 	//fmt.Println(resp.Choices[0].Message.Content)
-	apiKey := os.Getenv("CLAUDE_API_KEY")
-	apiURL := os.Getenv("CLAUDE_API_URL")
-
-	config := openai.DefaultConfig(apiKey)
-	config.BaseURL = apiURL
-	client := openai.NewClientWithConfig(config)
-
-	// 列出模型
-	models, err := client.ListModels(context.Background())
-	if err != nil {
-		log.Fatalf("获取模型失败: %v", err)
-	}
-
-	fmt.Println("可用模型列表：")
-	for _, m := range models.Models {
-		fmt.Println(m.ID)
-	}
-
-	//setx ANTHROPIC_API_KEY "blz_gmfXITCkIldgSw_zq3bPgCZlYFFBZlbxE1mAd2xxlJ4"
-	//setx ANTHROPIC_BASE_URL "https://blazeai.boxu.dev/api/"
-	//setx ANTHROPIC_MODEL "qwen3.6-plus-thinking"
 }
 
 // 创建一个结构体，实现 pb.HelloServiceServer 接口
