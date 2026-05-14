@@ -3,6 +3,7 @@ set -e  # 出错就退出
 
 PROJECT_DIR="/www/wwwroot/v2.dokey.cf/action"
 REPO="git@github.com:dansanyu/testwebhook.git"
+BRANCH="master"   # 如果仓库默认分支是 master，就改为 master
 
 # 1️⃣ 创建目录（如果不存在）
 mkdir -p $PROJECT_DIR
@@ -12,6 +13,8 @@ cd $PROJECT_DIR
 if [ ! -d ".git" ]; then
     git init
     git remote add origin $REPO
+    git fetch origin $BRANCH
+    git checkout -b $BRANCH FETCH_HEAD
 fi
 
 # 3️⃣ 拉取最新代码
