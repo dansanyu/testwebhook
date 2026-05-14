@@ -2,10 +2,10 @@ version: "3.9"
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: golang-test
     ports:
       - "8081:8081"
-    volumes:
-      - .:/app
     restart: always

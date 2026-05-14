@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJECT_DIR="/www/www***/v2.dokey.cf/action"
+PROJECT_DIR="/www/wwwroot/v2.dokey.cf/action"
 REPO="git@github.com:dansanyu/testwebhook.git"
 BRANCH="master"   # ⚠️ 如果你 GitHub 是 main，这里要改 main
 
