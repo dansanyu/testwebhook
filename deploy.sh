@@ -29,4 +29,5 @@ if [ ! -f "docker-compose.yml" ]; then
 fi
 
 docker compose down || true
+
 docker compose up -d --build
