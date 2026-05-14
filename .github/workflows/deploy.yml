@@ -18,9 +18,4 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
 
           script: |
-            cd /www/wwwroot/v2.dokey.cf/action
-
-            git pull origin master
-
-            docker compose down
-            docker compose up -d --build
+            bash /www/wwwroot/v2.dokey.cf/action/deploy.sh
